@@ -105,8 +105,12 @@ static size_t parse_hex_to_u32(const char *hex_str, uint32_t *output, size_t max
 /**
  * Parse hex string to byte array
  * Returns number of bytes parsed
+ *
+ * Part of the shared main.c template; unused in this assignment, which has no
+ * hex-encoded commands.
  */
-static size_t parse_hex_to_bytes(const char *hex_str, uint8_t *output, size_t max_bytes) {
+__attribute__((unused)) static size_t parse_hex_to_bytes(const char *hex_str, uint8_t *output,
+                                                         size_t max_bytes) {
     size_t byte_count = 0;
     size_t hex_len = strlen(hex_str);
 
@@ -277,6 +281,8 @@ static void handle_benchmark_sumc(const char *args) {
     for (int i = 0; i < iterations; i++) {
         result = sumc(integers, BENCH_NUM_INT);
     }
+    /* result is volatile purely to keep the call from being optimised away */
+    (void)result;
 
     uint64_t end_cycles = hal_get_time();
     uint32_t total_cycles = (uint32_t)(end_cycles - start_cycles);
@@ -308,6 +314,8 @@ static void handle_benchmark_sumjasmin(const char *args) {
     for (int i = 0; i < iterations; i++) {
         result = sum_jasmin(integers, BENCH_NUM_INT);
     }
+    /* result is volatile purely to keep the call from being optimised away */
+    (void)result;
 
     uint64_t end_cycles = hal_get_time();
     uint32_t total_cycles = (uint32_t)(end_cycles - start_cycles);
@@ -339,6 +347,8 @@ static void handle_benchmark_sumjasminfast(const char *args) {
     for (int i = 0; i < iterations; i++) {
         result = sum_jasmin_fast(integers, BENCH_NUM_INT);
     }
+    /* result is volatile purely to keep the call from being optimised away */
+    (void)result;
 
     uint64_t end_cycles = hal_get_time();
     uint32_t total_cycles = (uint32_t)(end_cycles - start_cycles);
@@ -352,7 +362,10 @@ static void handle_benchmark_sumjasminfast(const char *args) {
 /**
  * Handle TEST_HELLO command
  */
-static void handle_hello_world(const char *args) { hal_send_str("Hello host!\n"); }
+static void handle_hello_world(const char *args) {
+    (void)args; /* HELLO takes no arguments; signature fixed by the dispatch table */
+    hal_send_str("Hello host!\n");
+}
 
 /**
  * Handle RESET command

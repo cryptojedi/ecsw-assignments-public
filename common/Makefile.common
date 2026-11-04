@@ -115,6 +115,16 @@ LDFLAGS += -nostartfiles
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,-Map=$(BUILD_DIR)/$(TARGET).map
 LDFLAGS += --specs=nano.specs
+# Redirect newlib's POSIX syscalls to the __wrap__* stubs defined in the HAL.
+# Without these the linker resolves them from newlib/libnosys instead and warns
+# that each one "is not implemented and will always fail".
+LDFLAGS += -Wl,--wrap=_open,--wrap=_close,--wrap=_fstat,--wrap=_getpid,--wrap=_isatty
+LDFLAGS += -Wl,--wrap=_kill,--wrap=_lseek,--wrap=_read,--wrap=_write,--wrap=_sbrk
+# Host-OS memory-protection checks that do not apply to a flat bare-metal image
+# on Cortex-M (no MMU, so no per-page execute permission): newlib-nano ships
+# objects without .note.GNU-stack, and the MPS2 layout is a single RWX segment.
+LDFLAGS += -Wl,--no-warn-execstack
+LDFLAGS += -Wl,--no-warn-rwx-segments
 
 # Platform-specific linker flags and libraries
 ifeq ($(PLATFORM),qemu)
