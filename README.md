@@ -9,7 +9,7 @@ tests.
 ## Getting Started
 ### Method 1 (Recommended)
 Use our provided VM. You can obtain it from: https://sos.cs.ru.nl/teaching/ecsw2026/
-Instructions on the setup can be found next to the VM image files.
+Instructions on the setup can be found in the VM description, which can be viewed in the VirtualBox Manager.
 
 ### Method 2
 1. Install the **Nix** package manager.
