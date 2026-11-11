@@ -5,6 +5,22 @@
 
 #define BAUD 38400
 
+/* Entry points referenced only from the assembly vector table in
+ * common/mps2/startup_MPS2.S, which provides no C header. Declaring them here
+ * satisfies -Wmissing-prototypes and makes a misspelled handler name a compile
+ * error rather than a silently unpopulated vector. */
+void SystemInit(void);
+void SysTick_Handler(void);
+void NMI_Handler(void);
+void HardFault_Handler(void);
+void MemManage_Handler(void);
+void BusFault_Handler(void);
+void UsageFault_Handler(void);
+void SVC_Handler(void);
+void DebugMon_Handler(void);
+void PendSV_Handler(void);
+void Default_Handler(void);
+
 /* Default clock on the MPS2 boards seems to be 25MHz */
 #ifndef SYSTEM_CLOCK
 #define SYSTEM_CLOCK 25000000UL
